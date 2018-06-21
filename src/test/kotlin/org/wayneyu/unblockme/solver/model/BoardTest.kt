@@ -28,24 +28,27 @@ class BoardTest : Spek({
     }
 
     describe("should build board") {
-        it("should build a 4 by 4 board") {
-            /*
-            |----|
-            |RR1-
-            |--1-|
-            |22--|
-            */
 
-            val board = Board(4, 4, 1, 0,
-                    listOf(Bar(1, 2, 0, 2),
-                            Bar(3, 0, 1, 2)))
+        val board = Board(4, 4, 1, 0, listOf(Bar(1, 2, 0, 2), Bar(3, 0, 1, 2)))
+        /*
+        |----|
+        |RR1-
+        |--1-|
+        |22--|
+        */
+
+        it("should build a 4 by 4 board") {
             val expected: Array<IntArray> = arrayOf(
                     intArrayOf(0, 0, 0, 0),
                     intArrayOf(-1, -1, 1, 0),
                     intArrayOf(0, 0, 1, 0),
                     intArrayOf(2, 2, 0, 0))
 
-            assertArrayEquals(expected, board.getBoard())
+            assertArrayEquals(expected, board.board)
+        }
+
+        it("should get string for the board") {
+            print(board.getBoardString())
         }
     }
 })

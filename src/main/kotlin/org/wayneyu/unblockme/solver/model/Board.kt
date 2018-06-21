@@ -6,14 +6,16 @@ data class Board(val xsize: Int,
                  val mainBarY: Int,
                  val bars: List<Bar>) {
 
-    fun getBoard(): Array<IntArray> {
-        val board = (1..ysize).map{IntArray(xsize)}.toTypedArray()
+    val board: Array<IntArray> by lazy {
+        val board = (1..ysize).map { IntArray(xsize) }.toTypedArray()
         setBar(board, Bar(mainBarX, mainBarY, 1, 2), -1)
         bars.withIndex().forEach { setBar(board, it.value, it.index + 1) }
-        return board
+        board
     }
 
     private fun setBar(board: Array<IntArray>, bar: Bar, value: Int) = bar.getTiles().forEach{board[it.x][it.y] = value}
+
+    fun getBoardString() = this.board.toList().map{it.joinToString(" ", "|", "|")}.joinToString("\n")
 }
 
 data class Bar(val xStart: Int, // vertical direction, top to bottom
