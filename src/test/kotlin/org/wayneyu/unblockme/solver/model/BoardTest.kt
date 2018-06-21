@@ -48,7 +48,13 @@ class BoardTest : Spek({
         }
 
         it("should get string for the board") {
-            print(board.getBoardString())
+            val sb = StringBuilder()
+            sb.appendln("|0 0 0 0|")
+            sb.appendln("|-1 -1 1 0|")
+            sb.appendln("|0 0 1 0|")
+            sb.append("|2 2 0 0|")
+
+            assertEquals(sb.toString(), board.getBoardString())
         }
     }
 })
