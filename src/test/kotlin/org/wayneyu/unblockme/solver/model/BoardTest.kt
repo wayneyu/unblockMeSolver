@@ -7,6 +7,7 @@ import org.junit.Assert.assertArrayEquals
 import org.junit.platform.runner.JUnitPlatform
 import org.junit.runner.RunWith
 import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
 
 @RunWith(JUnitPlatform::class)
 class BoardTest : Spek({
@@ -25,6 +26,9 @@ class BoardTest : Spek({
             assertEquals(expected, ybar.getTiles())
         }
 
+        it("should throw Exception when bar direction is not 0 or 1") {
+            assertFailsWith(Exception::class, {Bar(0, 0, 9, 2).getTiles()})
+        }
     }
 
     describe("should build board") {
