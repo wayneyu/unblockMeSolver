@@ -3,12 +3,13 @@ package org.wayneyu.unblockme.solver.model
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.describe
 import org.jetbrains.spek.api.dsl.it
+import org.junit.Assert.assertArrayEquals
 import org.junit.platform.runner.JUnitPlatform
 import org.junit.runner.RunWith
 import kotlin.test.assertEquals
 
 @RunWith(JUnitPlatform::class)
-class BarTest : Spek({
+class BoardTest : Spek({
 
     describe("should get tiles of bar") {
 
@@ -24,5 +25,27 @@ class BarTest : Spek({
             assertEquals(expected, ybar.getTiles())
         }
 
+    }
+
+    describe("should build board") {
+        it("should build a 4 by 4 board") {
+            /*
+            |----|
+            |RR1-
+            |--1-|
+            |22--|
+            */
+
+            val board = Board(4, 4, 1, 0,
+                    listOf(Bar(1, 2, 0, 2),
+                            Bar(3, 0, 1, 2)))
+            val expected: Array<IntArray> = arrayOf(
+                    intArrayOf(0, 0, 0, 0),
+                    intArrayOf(-1, -1, 1, 0),
+                    intArrayOf(0, 0, 1, 0),
+                    intArrayOf(2, 2, 0, 0))
+
+            assertArrayEquals(expected, board.getBoard())
+        }
     }
 })
