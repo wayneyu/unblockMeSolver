@@ -29,6 +29,23 @@ class BoardTest : Spek({
         it("should throw Exception when bar direction is not 0 or 1") {
             assertFailsWith(Exception::class, {Bar(0, 0, 9, 2).getTiles()})
         }
+
+        it("should change x location when adding a move in x direction") {
+            val fixture = Bar(1,2,0,2)
+            val move = Move(2,0)
+            assertEquals(fixture + Move(2, 0), fixture.copy(xStart = fixture.xStart + move.nTile))
+        }
+
+        it("should change y location when adding a move in y direction") {
+            val fixture = Bar(1,2,1,2)
+            val move = Move(2,1)
+            assertEquals(fixture + Move(2, 1), fixture.copy(yStart = fixture.yStart + move.nTile))
+        }
+
+        it("should throw Exception when adding a move in different direction") {
+            val fixture = Bar(1, 2, 0, 3)
+            assertFailsWith(Exception::class, {fixture + Move(2, 1)})
+        }
     }
 
     describe("should build board") {
@@ -59,6 +76,20 @@ class BoardTest : Spek({
             sb.append("|2 2 0 0|")
 
             assertEquals(sb.toString(), board.getBoardString())
+        }
+
+    }
+
+    describe("should test moves") {
+
+        val fixture = Move(1,1)
+
+        it("should add another move") {
+            assertEquals(fixture + Move(2, 1), Move(3, 1))
+        }
+
+        it("should throw exception when adding another move in different direction") {
+            assertFailsWith(Exception::class, {fixture + Move(2, 0)})
         }
     }
 })

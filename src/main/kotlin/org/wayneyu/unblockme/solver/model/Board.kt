@@ -32,7 +32,29 @@ data class Bar(val xStart: Int, // vertical direction, top to bottom
                 .map{ Tile(xStart, yStart + it) }
         else -> throw Exception("Invalid direction")
     }
+
+    operator fun plus(move: Move): Bar {
+        if (direction != move.direction)
+            throw Exception("Directions have to be the same")
+
+        return when (direction) {
+            0 -> this.copy(xStart = xStart + move.nTile)
+            1 ->  this.copy(yStart = yStart + move.nTile)
+            else -> throw Exception("Invalid direction")
+        }
+    }
 }
 
 data class Tile(val x: Int,
                 val y: Int)
+
+data class Move(val nTile: Int,
+                val direction: Int) {
+
+    operator fun plus(another: Move): Move {
+        if (direction == another.direction)
+            return Move(nTile + another.nTile, direction)
+        else
+            throw Exception("Directions have to be the same")
+    }
+}
