@@ -3,7 +3,6 @@ package org.wayneyu.unblockme.solver.model
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.describe
 import org.jetbrains.spek.api.dsl.it
-import org.junit.Assert.assertArrayEquals
 import org.junit.platform.runner.JUnitPlatform
 import org.junit.runner.RunWith
 import kotlin.test.assertEquals
@@ -12,7 +11,7 @@ import kotlin.test.assertFailsWith
 @RunWith(JUnitPlatform::class)
 class BoardTest : Spek({
 
-    describe("should get tiles of bar") {
+    describe("a bar") {
 
         it("should create tiles for bars in x direction") {
             val xbar = Bar(1, 2, 0, 3)
@@ -27,7 +26,7 @@ class BoardTest : Spek({
         }
 
         it("should throw Exception when bar direction is not 0 or 1") {
-            assertFailsWith(Exception::class, {Bar(0, 0, 9, 2).getTiles()})
+            assertFailsWith(Exception::class) {Bar(0, 0, 9, 2).getTiles()}
         }
 
         it("should change x location when adding a move in x direction") {
@@ -44,43 +43,44 @@ class BoardTest : Spek({
 
         it("should throw Exception when adding a move in different direction") {
             val fixture = Bar(1, 2, 0, 3)
-            assertFailsWith(Exception::class, {fixture + Move(2, 1)})
+            assertFailsWith(Exception::class) {fixture + Move(2, 1)}
         }
     }
 
-    describe("should build board") {
+    describe("a board") {
 
-        val board = Board(4, 4, 1, 0, listOf(Bar(1, 2, 0, 2), Bar(3, 0, 1, 2)))
+        val board = Board(4, 4, listOf(Bar(1, 0, 1, 2), Bar(1, 2, 0, 2), Bar(3, 0, 1, 2)))
         /*
         |----|
-        |RR1-
+        |001-|
         |--1-|
         |22--|
         */
 
         it("should build a 4 by 4 board") {
-            val expected: Array<IntArray> = arrayOf(
-                    intArrayOf(0, 0, 0, 0),
-                    intArrayOf(-1, -1, 1, 0),
-                    intArrayOf(0, 0, 1, 0),
-                    intArrayOf(2, 2, 0, 0))
-
-            assertArrayEquals(expected, board.board)
-        }
-
-        it("should get string for the board") {
             val sb = StringBuilder()
-            sb.appendln("|0 0 0 0|")
-            sb.appendln("|-1 -1 1 0|")
-            sb.appendln("|0 0 1 0|")
-            sb.append("|2 2 0 0|")
+            sb.appendln("|- - - -|")
+            sb.appendln("|0 0 1 -|")
+            sb.appendln("|- - 1 -|")
+            sb.append(  "|2 2 - -|")
 
             assertEquals(sb.toString(), board.getBoardString())
         }
 
+        it("should move a bar") {
+            /*
+            |----|
+            |00--|
+            |--1-|
+            |221-|
+            */
+            val expected = Board(4, 4, listOf(Bar(1, 0, 1, 2), Bar(2, 2, 0, 2), Bar(3, 0, 1, 2)))
+
+            assertEquals(expected, board.move(1, Move(1, 0)))
+        }
     }
 
-    describe("should test moves") {
+    describe("a move") {
 
         val fixture = Move(1,1)
 
@@ -89,7 +89,7 @@ class BoardTest : Spek({
         }
 
         it("should throw exception when adding another move in different direction") {
-            assertFailsWith(Exception::class, {fixture + Move(2, 0)})
+            assertFailsWith(Exception::class) {fixture + Move(2, 0)}
         }
     }
 })

@@ -4,7 +4,7 @@ import org.wayneyu.unblockme.solver.model.Board
 
 class Solver(val board: Board) {
 
-    fun solve() = print(board)
+    fun solve(): Board = board
 }
 
 fun main(args: Array<String>) {

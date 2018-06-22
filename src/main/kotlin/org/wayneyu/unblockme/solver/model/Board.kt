@@ -1,21 +1,26 @@
 package org.wayneyu.unblockme.solver.model
 
-data class Board(val xsize: Int,
-                 val ysize: Int,
-                 val mainBarX: Int,
-                 val mainBarY: Int,
-                 val bars: List<Bar>) {
+data class Board(val xSize: Int,
+                 val ySize: Int,
+                 val bars: List<Bar>){ // first bar is red bar
 
-    val board: Array<IntArray> by lazy {
-        val board = (1..ysize).map { IntArray(xsize) }.toTypedArray()
-        setBar(board, Bar(mainBarX, mainBarY, 1, 2), -1)
-        bars.withIndex().forEach { setBar(board, it.value, it.index + 1) }
-        board
+    // -1 for empty space, 0 for red bar, 1..n for other bars
+    private val board: Array<IntArray> by lazy {
+        val brd = (1..ySize).map { IntArray(xSize) { -1 } }.toTypedArray()
+        bars.withIndex().forEach{ (index, bar) -> setBar(brd, bar, index) }
+        brd
     }
 
     private fun setBar(board: Array<IntArray>, bar: Bar, value: Int) = bar.getTiles().forEach{board[it.x][it.y] = value}
 
-    fun getBoardString() = this.board.toList().map{it.joinToString(" ", "|", "|")}.joinToString("\n")
+    fun move(barIndex: Int, move: Move): Board {
+        val mutableBars = bars.toMutableList()
+        mutableBars[barIndex] = mutableBars[barIndex] + move
+        return Board(xSize, ySize, mutableBars)
+    }
+
+    fun getBoardString() = this.board.toList()
+            .map{it.joinToString(" ", "|", "|").replace("-1", "-")}.joinToString("\n")
 }
 
 data class Bar(val xStart: Int, // vertical direction, top to bottom
@@ -43,6 +48,7 @@ data class Bar(val xStart: Int, // vertical direction, top to bottom
             else -> throw Exception("Invalid direction")
         }
     }
+
 }
 
 data class Tile(val x: Int,
