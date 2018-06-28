@@ -19,6 +19,9 @@ data class Board(val xSize: Int,
         return Board(xSize, ySize, mutableBars)
     }
 
+    val redBar: Bar
+        get() = bars[0]
+
     fun getBoardString() = this.board.toList()
             .map{it.joinToString(" ", "|", "|").replace("-1", "-")}.joinToString("\n")
 }

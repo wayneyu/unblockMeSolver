@@ -82,7 +82,7 @@ class BoardTest : Spek({
 
     describe("a move") {
 
-        val fixture = Move(1,1)
+        val fixture = Move(1, 1)
 
         it("should add another move") {
             assertEquals(fixture + Move(2, 1), Move(3, 1))
