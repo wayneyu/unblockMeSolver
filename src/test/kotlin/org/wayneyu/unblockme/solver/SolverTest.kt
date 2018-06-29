@@ -37,7 +37,6 @@ class SolverTest : Spek({
             assertEquals(expected, fixture.solve(board))
         }
 
-
         it("should mark as solved") {
             /*
             |----|

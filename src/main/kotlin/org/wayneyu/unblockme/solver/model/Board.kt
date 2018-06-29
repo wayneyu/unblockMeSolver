@@ -16,13 +16,27 @@ data class Board(val xSize: Int,
     fun move(barIndex: Int, move: Move): Board {
         val mutableBars = bars.toMutableList()
         mutableBars[barIndex] = mutableBars[barIndex] + move
-        return Board(xSize, ySize, mutableBars)
+
+        val isMoveValid = (this.occupiedTiles - bars[barIndex].getTiles())
+                .intersect(mutableBars[barIndex].getTiles()).isEmpty()
+
+        return if(isMoveValid) Board(xSize, ySize, mutableBars) else this
     }
+
+    val occupiedTiles: Set<Tile>
+        get() = bars.flatMap { it.getTiles() }.toSet()
 
     val redBar: Bar
         get() = bars[0]
 
-    fun getBoardString() = this.board.toList()
+    val neighbors: List<Board>
+        get() = bars.mapIndexed{ index, bar ->
+            val maxIndex = if (bar.direction == 0) xSize - bar.length else ySize - bar.length
+            val moves = (0 .. maxIndex).map{ Move(it, bar.direction) }
+            moves.map { this.move(index, it) }
+        }.flatten()
+
+    fun getLayout() = this.board.toList()
             .map{it.joinToString(" ", "|", "|").replace("-1", "-")}.joinToString("\n")
 }
 
