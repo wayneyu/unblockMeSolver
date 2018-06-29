@@ -13,14 +13,21 @@ data class Board(val xSize: Int,
 
     private fun setBar(board: Array<IntArray>, bar: Bar, value: Int) = bar.getTiles().forEach{board[it.x][it.y] = value}
 
+    private fun isInsideBound(bar: Bar) =
+        bar.getTiles().filter { it.x < 0 || it.x >= xSize || it.y < 0 || it.y >= ySize }.isEmpty()
+
     fun move(barIndex: Int, move: Move): Board {
-        val mutableBars = bars.toMutableList()
-        mutableBars[barIndex] = mutableBars[barIndex] + move
+        val newBar = bars[barIndex] + move
 
-        val isMoveValid = (this.occupiedTiles - bars[barIndex].getTiles())
-                .intersect(mutableBars[barIndex].getTiles()).isEmpty()
+        val isMoveValid = isInsideBound(newBar) &&
+                (this.occupiedTiles - bars[barIndex].getTiles()).intersect(newBar.getTiles()).isEmpty()
 
-        return if(isMoveValid) Board(xSize, ySize, mutableBars) else this
+        return if(isMoveValid) {
+            val mutableBars = bars.toMutableList()
+            mutableBars[barIndex] = mutableBars[barIndex] + move
+            Board(xSize, ySize, mutableBars) }
+        else this
+
     }
 
     val occupiedTiles: Set<Tile>
@@ -29,15 +36,20 @@ data class Board(val xSize: Int,
     val redBar: Bar
         get() = bars[0]
 
-    val neighbors: List<Board>
-        get() = bars.mapIndexed{ index, bar ->
-            val maxIndex = if (bar.direction == 0) xSize - bar.length else ySize - bar.length
-            val moves = (0 .. maxIndex).map{ Move(it, bar.direction) }
-            moves.map { this.move(index, it) }
-        }.flatten()
+    val neighbors: Set<Board>
+        get() = bars
+                .mapIndexed { index, bar ->
+                    val maxSteps = if (bar.direction == 0) xSize - bar.length else ySize - bar.length
+                    val moves = (-maxSteps .. maxSteps).filterNot{ it == 0 }.map{ Move(it, bar.direction) }
+                    moves.map { this.move(index, it) }}
+                .flatten()
+                .toSet()
+                .minus(this)
 
-    fun getLayout() = this.board.toList()
-            .map{it.joinToString(" ", "|", "|").replace("-1", "-")}.joinToString("\n")
+    val layout: String
+        get() = this.board.toList()
+                .map{it.joinToString(" ", "|", "|").replace("-1", "-")}
+                .joinToString("\n")
 }
 
 data class Bar(val xStart: Int, // vertical direction, top to bottom

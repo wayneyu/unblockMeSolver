@@ -3,7 +3,6 @@ package org.wayneyu.unblockme.solver.model
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.describe
 import org.jetbrains.spek.api.dsl.it
-import org.jetbrains.spek.api.dsl.xit
 import org.junit.platform.runner.JUnitPlatform
 import org.junit.runner.RunWith
 import kotlin.test.assertEquals
@@ -70,7 +69,7 @@ class BoardTest : Spek({
             sb.appendln("|- - 1 -|")
             sb.append(  "|2 2 - -|")
 
-            assertEquals(sb.toString(), board.getLayout())
+            assertEquals(sb.toString(), board.layout)
         }
 
         it("should move a bar") {
@@ -86,22 +85,19 @@ class BoardTest : Spek({
         }
 
         it("should not change board if a move is not valid") {
-            /*
-            |----|
-            |00--|
-            |--1-|
-            |221-|
-            */
-            val start = Board(4, 4, listOf(Bar(1, 0, 1, 2), Bar(2, 2, 0, 2), Bar(3, 0, 1, 2)))
-            assertEquals(start, start.move(2, Move(1, 1)))
+            assertEquals(board, board.move(0, Move(1, 1)))
         }
 
-        xit("should create its neighbors") {
-            val expectedNeighbors = listOf(
-                    Board(4, 4, listOf(Bar(1, 1, 1, 2), Bar(2, 2, 0, 2), Bar(3, 0, 1, 2))),
-                    Board(4, 4, listOf(Bar(1, 2, 1, 2), Bar(2, 2, 0, 2), Bar(3, 0, 1, 2))),
+        it("should not change board if a move moves bar out of bound") {
+            assertEquals(board, board.move(2, Move(-1, 1)))
+        }
+
+        it("should create its neighbors") {
+            val expectedNeighbors = setOf(
                     Board(4, 4, listOf(Bar(1, 0, 1, 2), Bar(0, 2, 0, 2), Bar(3, 0, 1, 2))),
-                    Board(4, 4, listOf(Bar(1, 0, 1, 2), Bar(1, 2, 0, 2), Bar(3, 0, 1, 2))))
+                    Board(4, 4, listOf(Bar(1, 0, 1, 2), Bar(2, 2, 0, 2), Bar(3, 0, 1, 2))),
+                    Board(4, 4, listOf(Bar(1, 0, 1, 2), Bar(1, 2, 0, 2), Bar(3, 1, 1, 2))),
+                    Board(4, 4, listOf(Bar(1, 0, 1, 2), Bar(1, 2, 0, 2), Bar(3, 2, 1, 2))))
 
             assertEquals(expectedNeighbors, board.neighbors)
         }
