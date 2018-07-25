@@ -7,6 +7,7 @@ import org.junit.platform.runner.JUnitPlatform
 import org.junit.runner.RunWith
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
+import kotlin.test.assertNull
 
 @RunWith(JUnitPlatform::class)
 class BoardTest : Spek({
@@ -84,15 +85,33 @@ class BoardTest : Spek({
             assertEquals(expected, board.move(1, Move(1, 0)))
         }
 
-        it("should not change board if a move is not valid") {
-            assertEquals(board, board.move(0, Move(1, 1)))
+        it("should return null if a move is not valid") {
+            assertNull(board.move(0, Move(1, 1)))
         }
 
-        it("should not change board if a move moves bar out of bound") {
-            assertEquals(board, board.move(2, Move(-1, 1)))
+        it("should return null if a move moves bar out of bound") {
+            assertNull(board.move(2, Move(-1, 1)))
         }
 
-        it("should create its neighbors") {
+        it("should return boards as a result of applying a sequence of moves") {
+            val moves = listOf(
+                    1 to Move(1, 0),
+                    0 to Move(2, 1))
+            val actual = board.move(moves)
+            val expected = listOf(
+                    Board(4, 4, listOf(Bar(1, 0, 1, 2), Bar(2, 2, 0, 2), Bar(3, 0, 1, 2))),
+                    Board(4, 4, listOf(Bar(1, 2, 1, 2), Bar(2, 2, 0, 2), Bar(3, 0, 1, 2))))
+
+            assertEquals(expected, actual)
+        }
+    }
+
+    describe("board neighbors") {
+
+        val board = Board(4, 4, listOf(Bar(1, 0, 1, 2), Bar(1, 2, 0, 2), Bar(3, 0, 1, 2)))
+        val board5x5 = Board(5, 5, listOf(Bar(1, 0, 1, 2), Bar(2, 3, 0, 3), Bar(3, 1, 1, 2), Bar(0, 2, 0, 3)))
+
+        it("should create neighbors") {
             val expectedNeighbors = setOf(
                     Board(4, 4, listOf(Bar(1, 0, 1, 2), Bar(0, 2, 0, 2), Bar(3, 0, 1, 2))),
                     Board(4, 4, listOf(Bar(1, 0, 1, 2), Bar(2, 2, 0, 2), Bar(3, 0, 1, 2))),
@@ -101,6 +120,16 @@ class BoardTest : Spek({
 
             assertEquals(expectedNeighbors, board.neighbors)
         }
+
+        it("should create neighbors for 5x5 board") {
+            val expectedNeighbors = setOf(
+                    board5x5.move(1, Move(-1, 0)),
+                    board5x5.move(1, Move(-2, 0)),
+                    board5x5.move(2, Move(-1, 1)))
+
+            assertEquals(expectedNeighbors, board5x5.neighbors)
+        }
+
     }
 
     describe("a move") {

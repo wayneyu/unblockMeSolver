@@ -16,7 +16,7 @@ data class Board(val xSize: Int,
     private fun isInsideBound(bar: Bar) =
         bar.getTiles().filter { it.x < 0 || it.x >= xSize || it.y < 0 || it.y >= ySize }.isEmpty()
 
-    fun move(barIndex: Int, move: Move): Board {
+    fun move(barIndex: Int, move: Move): Board? {
         val newBar = bars[barIndex] + move
 
         val isMoveValid = isInsideBound(newBar) &&
@@ -26,8 +26,14 @@ data class Board(val xSize: Int,
             val mutableBars = bars.toMutableList()
             mutableBars[barIndex] = mutableBars[barIndex] + move
             Board(xSize, ySize, mutableBars) }
-        else this
+        else null
 
+    }
+
+    fun move(moves: List<Pair<Int, Move>>): List<Board> {
+        if (moves.isEmpty()) return emptyList()
+        val movedOnce = this.move(moves.first().first, moves.first().second) ?: this
+        return listOf(movedOnce).plus(movedOnce.move(moves.drop(1)))
     }
 
     val occupiedTiles: Set<Tile>
@@ -40,8 +46,12 @@ data class Board(val xSize: Int,
         get() = bars
                 .mapIndexed { index, bar ->
                     val maxSteps = if (bar.direction == 0) xSize - bar.length else ySize - bar.length
-                    val moves = (-maxSteps .. maxSteps).filterNot{ it == 0 }.map{ Move(it, bar.direction) }
-                    moves.map { this.move(index, it) }}
+                    val backwardMoves = (-maxSteps .. -1).reversed().map{ Move(it, bar.direction) }
+                    val forwardMoves = (1 .. maxSteps).map{ Move(it, bar.direction) }
+                    backwardMoves.takeWhile { this.move(index, it) != null }.plus(
+                    forwardMoves.takeWhile { this.move(index, it) != null }) }
+                .mapIndexed { index, moves ->
+                    moves.mapNotNull{ this.move(index, it) }}
                 .flatten()
                 .toSet()
                 .minus(this)
