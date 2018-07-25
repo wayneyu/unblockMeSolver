@@ -45,8 +45,8 @@ class SolverTest : Spek({
             |--1-|
             */
             val finished = Board(4, 4, listOf(Bar(1, 2, 1, 2), Bar(2, 2, 0, 2)))
-            assertTrue(fixture.isSolved(finished))
-            assertFalse(fixture.isSolved(board))
+            assertTrue(Solver.isSolved(finished))
+            assertFalse(Solver.isSolved(board))
         }
     }
 

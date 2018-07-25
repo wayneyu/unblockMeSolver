@@ -36,7 +36,7 @@ data class Board(val xSize: Int,
     val redBar: Bar
         get() = bars[0]
 
-    val neighbors: Set<Board>
+    val neighbors: Set<Board> // all boards that are reachable with one move
         get() = bars
                 .mapIndexed { index, bar ->
                     val maxSteps = if (bar.direction == 0) xSize - bar.length else ySize - bar.length
