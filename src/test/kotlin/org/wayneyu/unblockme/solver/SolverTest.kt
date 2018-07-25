@@ -8,6 +8,7 @@ import org.junit.platform.runner.JUnitPlatform
 import org.junit.runner.RunWith
 import org.wayneyu.unblockme.solver.model.Bar
 import org.wayneyu.unblockme.solver.model.Board
+import org.wayneyu.unblockme.solver.model.Move
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
@@ -26,14 +27,18 @@ class SolverTest : Spek({
         */
         val fixture = Solver()
 
-        xit("should solve two moves board") {
+        it("should solve board in two moves") {
             /*
             |----|
             |--00|
             |--1-|
             |221-|
             */
-            val expected = Board(4, 4, listOf(Bar(1, 2, 1, 2), Bar(2, 2, 0, 2), Bar(3, 0, 1, 2)))
+            val expected = listOf(
+                    board,
+                    board.move(1, Move(1, 0)),
+                    board.move(1, Move(1, 0)).move(0, Move(2, 1)))
+            
             assertEquals(expected, fixture.solve(board))
         }
 

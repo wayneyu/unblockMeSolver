@@ -5,7 +5,10 @@ import java.util.*
 
 class Solver {
 
-    fun solve(board: Board): Board = board
+    fun solve(board: Board): List<Board> {
+        val shortestPath = BFS.shortestPath(BoardNode(board))
+        return shortestPath.map{ (it as BoardNode).board }
+    }
 
     companion object {
         fun isSolved(board: Board): Boolean =
@@ -14,7 +17,7 @@ class Solver {
 
 }
 
-class BoardNode(private val board: Board) : Node {
+data class BoardNode(val board: Board) : Node {
     override val neighbors: Set<Node>
         get() = board.neighbors.mapTo(HashSet<Node>()){ BoardNode(it) }
 
