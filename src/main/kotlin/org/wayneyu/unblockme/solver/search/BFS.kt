@@ -4,7 +4,7 @@ import org.slf4j.LoggerFactory
 
 object BFS : ShortestPathFinder {
 
-    override val logger = LoggerFactory.getLogger(BFS.javaClass)
+    override val logger = LoggerFactory.getLogger(BFS::class.toString())
 
     override fun search(root: Node): SearchResult {
         val visited = mutableSetOf<Node>()

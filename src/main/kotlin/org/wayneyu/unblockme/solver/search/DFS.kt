@@ -5,7 +5,7 @@ import java.util.*
 
 object DFS : ShortestPathFinder {
 
-    override val logger = LoggerFactory.getLogger(DFS.javaClass)
+    override val logger = LoggerFactory.getLogger(DFS::class.toString())
 
     override fun search(root: Node): SearchResult {
 
