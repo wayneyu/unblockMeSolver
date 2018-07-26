@@ -1,8 +1,11 @@
 package org.wayneyu.unblockme.solver.search
 
+import org.slf4j.LoggerFactory
 import java.util.*
 
 object DFS : ShortestPathFinder {
+
+    override val logger = LoggerFactory.getLogger(DFS.javaClass)
 
     override fun search(root: Node): SearchResult {
 

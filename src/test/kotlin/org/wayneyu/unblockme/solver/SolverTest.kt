@@ -3,6 +3,7 @@ package org.wayneyu.unblockme.solver
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.describe
 import org.jetbrains.spek.api.dsl.it
+import org.jetbrains.spek.api.dsl.xit
 import org.junit.platform.runner.JUnitPlatform
 import org.junit.runner.RunWith
 import org.wayneyu.unblockme.solver.model.Bar
@@ -17,7 +18,7 @@ import kotlin.test.assertTrue
 @RunWith(JUnitPlatform::class)
 class SolverTest : Spek({
 
-    val fixture = Solver(DFS)
+    val fixture = Solver(BFS)
 
     val board4x4 = Board(4, 4, listOf(Bar(1, 0, 1, 2), Bar(1, 2, 0, 2), Bar(3, 0, 1, 2)))
     /*
@@ -96,7 +97,7 @@ class SolverTest : Spek({
 
             val board6x6 = BoardParser.createBoard(layout)
 
-            val actual = Solver(DFS).solve(board6x6)
+            val actual = fixture.solve(board6x6)
             assertEquals(15, actual.size - 1)
         }
 
@@ -111,9 +112,9 @@ class SolverTest : Spek({
             """.trimIndent().replace("|", "").split("\n")
 
             val board6x6 = BoardParser.createBoard(layout)
-            val actual = Solver(DFS).solve(board6x6)
+            val actual = fixture.solve(board6x6)
 
-            assertEquals(27, actual.size - 1)
+            assertEquals(21, actual.size - 1)
         }
     }
 

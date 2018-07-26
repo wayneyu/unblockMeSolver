@@ -1,6 +1,10 @@
 package org.wayneyu.unblockme.solver.search
 
+import org.slf4j.LoggerFactory
+
 object BFS : ShortestPathFinder {
+
+    override val logger = LoggerFactory.getLogger(BFS.javaClass)
 
     override fun search(root: Node): SearchResult {
         val visited = mutableSetOf<Node>()
@@ -10,6 +14,7 @@ object BFS : ShortestPathFinder {
 
         var node = root
         queue.add(root)
+        visited.add(root)
         shortestDistToNode.put(root, 0)
         shortestParentToNode.put(root, root) // set parent of root to root
 
@@ -22,17 +27,17 @@ object BFS : ShortestPathFinder {
                 val distToNode = shortestDistToNode[node] ?: throw Exception("Should not have no match") // shouldnt return no match
                 val neighbors = node.neighbors
                 neighbors.forEach {
-                    if (shortestDistToNode[it] ?: Int.MAX_VALUE > distToNode + 1) { // not exist = not reached, set to Int.MAX_VALUE
+                    if (shortestDistToNode.getOrElse(it){Integer.MAX_VALUE} > distToNode + 1) {
                         shortestDistToNode.put(it, distToNode + 1)
-                        shortestParentToNode.put(it, node)
+                        shortestParentToNode.put(it, node)    // not exist = not reached, set to Int.MAX_VALUE
                     }
                 }
-                val notVisitedNeighbors = node.neighbors.filterNot { visited.contains(it) }
+                val notVisitedNeighbors = neighbors.filterNot { visited.contains(it) }
                 queue.addAll(notVisitedNeighbors)
+                visited.addAll(notVisitedNeighbors)
             } else {
                 break
             }
-            visited.add(node)
         }
 
         return SearchResult(node, shortestParentToNode, iter)
