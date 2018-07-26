@@ -83,7 +83,7 @@ class SolverTest : Spek({
 
     describe("should solve 6x6 board") {
 
-        it("should solve board in 15 moves") {
+        it("should solve board (Beginner original 96) in 15 moves ") {
             /*
             |--2344|
             |11235-|
@@ -108,8 +108,33 @@ class SolverTest : Spek({
                     Bar(4, 5, 0, 2)))
 
             val actual = Solver(DFS).solve(board6x6)
-            actual.forEach { println(it.layout + "\n") }
-            assertEquals(16, actual.size)
+            assertEquals(15, actual.size - 1)
+        }
+
+        it("should solve board (Intermediate original 1) in 21 moves ") {
+            /*
+            |-12344|
+            |-12355|
+            |002---
+            |6777-A|
+            |6----A|
+            |8899-A|
+            */
+            val board6x6 = Board(6, 6, listOf(
+                    Bar(2, 0, 1, 2),
+                    Bar(0, 1, 0, 2),
+                    Bar(0, 2, 0, 3),
+                    Bar(0, 3, 0, 2),
+                    Bar(0, 4, 1, 2),
+                    Bar(1, 4, 1, 2),
+                    Bar(3, 0, 0, 2),
+                    Bar(3, 1, 1, 3),
+                    Bar(5, 0, 1, 2),
+                    Bar(5, 2, 1, 2),
+                    Bar(3, 5, 0, 3)))
+
+            val actual = Solver(DFS).solve(board6x6)
+            assertEquals(27, actual.size - 1)
         }
     }
 
