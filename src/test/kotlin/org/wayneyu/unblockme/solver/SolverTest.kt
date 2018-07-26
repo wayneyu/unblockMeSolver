@@ -8,6 +8,7 @@ import org.junit.runner.RunWith
 import org.wayneyu.unblockme.solver.model.Bar
 import org.wayneyu.unblockme.solver.model.Board
 import org.wayneyu.unblockme.solver.model.Move
+import org.wayneyu.unblockme.solver.parser.BoardParser
 import org.wayneyu.unblockme.solver.search.*
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -84,56 +85,34 @@ class SolverTest : Spek({
     describe("should solve 6x6 board") {
 
         it("should solve board (Beginner original 96) in 15 moves ") {
-            /*
+            val layout = """
             |--2344|
             |11235-|
             |60035-
             |678899|
             |-7A--C|
             |--ABBC|
-            */
-            val board6x6 = Board(6, 6, listOf(
-                    Bar(2, 1, 1, 2),
-                    Bar(1, 0, 1, 2),
-                    Bar(0, 2, 0, 2),
-                    Bar(0, 3, 0, 3),
-                    Bar(0, 4, 1, 2),
-                    Bar(1, 4, 0, 2),
-                    Bar(2, 0, 0, 2),
-                    Bar(3, 1, 0, 2),
-                    Bar(3, 2, 1, 2),
-                    Bar(3, 4, 1, 2),
-                    Bar(4, 2, 0, 2),
-                    Bar(5, 3, 1, 2),
-                    Bar(4, 5, 0, 2)))
+            """.trimIndent().replace("|", "").split("\n")
+
+            val board6x6 = BoardParser.createBoard(layout)
 
             val actual = Solver(DFS).solve(board6x6)
             assertEquals(15, actual.size - 1)
         }
 
         it("should solve board (Intermediate original 1) in 21 moves ") {
-            /*
+            val layout = """
             |-12344|
             |-12355|
             |002---
             |6777-A|
             |6----A|
             |8899-A|
-            */
-            val board6x6 = Board(6, 6, listOf(
-                    Bar(2, 0, 1, 2),
-                    Bar(0, 1, 0, 2),
-                    Bar(0, 2, 0, 3),
-                    Bar(0, 3, 0, 2),
-                    Bar(0, 4, 1, 2),
-                    Bar(1, 4, 1, 2),
-                    Bar(3, 0, 0, 2),
-                    Bar(3, 1, 1, 3),
-                    Bar(5, 0, 1, 2),
-                    Bar(5, 2, 1, 2),
-                    Bar(3, 5, 0, 3)))
+            """.trimIndent().replace("|", "").split("\n")
 
+            val board6x6 = BoardParser.createBoard(layout)
             val actual = Solver(DFS).solve(board6x6)
+
             assertEquals(27, actual.size - 1)
         }
     }

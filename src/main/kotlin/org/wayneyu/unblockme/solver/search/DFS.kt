@@ -19,7 +19,7 @@ object DFS : ShortestPathFinder {
             iter++
             node = stack.pop()
 
-            val distToNode = shortestDistToNode[node] ?: throw Exception("Should not have no match") // shouldnt return no match
+            val distToNode = shortestDistToNode[node] ?: throw Exception("Should not have no match")
 
             if (node.isEnd() && distToNode < shortestDistEndNode.second) {
                 shortestDistEndNode = node to distToNode

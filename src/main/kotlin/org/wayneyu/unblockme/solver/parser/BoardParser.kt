@@ -22,8 +22,6 @@ object BoardParser {
             }
         }
 
-        println(tiles)
-
         val bars: List<Bar> = tiles.toSortedMap().values.map { Bar.fromTiles(it) }
 
         return Board(xsize, ysize, bars)
