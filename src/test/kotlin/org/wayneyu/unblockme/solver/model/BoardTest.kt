@@ -33,18 +33,25 @@ class BoardTest : Spek({
         it("should change x location when adding a move in x direction") {
             val fixture = Bar(1,2,0,2)
             val move = Move(2,0)
-            assertEquals(fixture + Move(2, 0), fixture.copy(xStart = fixture.xStart + move.nTile))
+            assertEquals(fixture + Move(2, 0), fixture.copy(xStart = fixture.xStart + move.offset))
         }
 
         it("should change y location when adding a move in y direction") {
             val fixture = Bar(1,2,1,2)
             val move = Move(2,1)
-            assertEquals(fixture + Move(2, 1), fixture.copy(yStart = fixture.yStart + move.nTile))
+            assertEquals(fixture + Move(2, 1), fixture.copy(yStart = fixture.yStart + move.offset))
         }
 
         it("should throw Exception when adding a move in different direction") {
             val fixture = Bar(1, 2, 0, 3)
             assertFailsWith(Exception::class) {fixture + Move(2, 1)}
+        }
+
+        it("should create from tiles") {
+            val actual = Bar.fromTiles(listOf(Tile(0, 1), Tile(0, 2), Tile(0, 3)))
+            val expected = Bar(0, 1, 1, 3)
+
+            assertEquals(expected, actual)
         }
     }
 

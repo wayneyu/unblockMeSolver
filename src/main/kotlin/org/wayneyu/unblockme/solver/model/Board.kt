@@ -68,6 +68,22 @@ data class Bar(val xStart: Int, // vertical direction, top to bottom
                val direction: Int, //direction of bar. 0: x-dir, 1: y-dir
                val length: Int) {
 
+    companion object {
+        fun fromTiles(tiles: List<Tile>): Bar {
+            val xs = tiles.map{ it.x }.toSet()
+            val ys = tiles.map{ it.y }.toSet()
+
+            val xmin = xs.min() ?: throw Exception("Tiles don't have x direction")
+            val ymin = ys.min() ?: throw Exception("Tiles don't have y direction")
+
+            return if (xs.size == 1) {
+                Bar(xs.first(), ymin, 1, ys.size)
+            } else {
+                Bar(xmin, ys.first(), 0, xs.size)
+            }
+        }
+    }
+
     fun getTiles(): List<Tile> = when (direction) {
         0 -> (0 until length)
                 .toList()
@@ -83,8 +99,8 @@ data class Bar(val xStart: Int, // vertical direction, top to bottom
             throw Exception("Directions have to be the same")
 
         return when (direction) {
-            0 -> this.copy(xStart = xStart + move.nTile)
-            1 ->  this.copy(yStart = yStart + move.nTile)
+            0 -> this.copy(xStart = xStart + move.offset)
+            1 -> this.copy(yStart = yStart + move.offset)
             else -> throw Exception("Invalid direction")
         }
     }
@@ -94,12 +110,12 @@ data class Bar(val xStart: Int, // vertical direction, top to bottom
 data class Tile(val x: Int,
                 val y: Int)
 
-data class Move(val nTile: Int,
+data class Move(val offset: Int,
                 val direction: Int) {
 
     operator fun plus(another: Move): Move {
         if (direction == another.direction)
-            return Move(nTile + another.nTile, direction)
+            return Move(offset + another.offset, direction)
         else
             throw Exception("Directions have to be the same")
     }
