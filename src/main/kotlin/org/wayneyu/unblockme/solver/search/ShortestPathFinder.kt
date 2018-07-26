@@ -5,8 +5,9 @@ interface ShortestPathFinder {
     fun search(root: Node): SearchResult
 
     fun shortestPath(root: Node): List<Node> {
-        val searchResult = BFS.search(root)
-        return BFS.shortestPathFromEndToStart(searchResult.endNode, searchResult.shortestParent).reversed()
+        val searchResult = this.search(root)
+        println("iter: ${searchResult.iterations}")
+        return this.shortestPathFromEndToStart(searchResult.endNode, searchResult.shortestParent).reversed()
     }
 
     fun shortestPathFromEndToStart(node: Node, shortestParent: Map<Node, Node>): List<Node> {

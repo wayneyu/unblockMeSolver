@@ -8,6 +8,7 @@ import org.junit.runner.RunWith
 import org.wayneyu.unblockme.solver.model.Bar
 import org.wayneyu.unblockme.solver.model.Board
 import org.wayneyu.unblockme.solver.model.Move
+import org.wayneyu.unblockme.solver.search.*
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
@@ -15,7 +16,7 @@ import kotlin.test.assertTrue
 @RunWith(JUnitPlatform::class)
 class SolverTest : Spek({
 
-    val fixture = Solver()
+    val fixture = Solver(DFS)
 
     val board4x4 = Board(4, 4, listOf(Bar(1, 0, 1, 2), Bar(1, 2, 0, 2), Bar(3, 0, 1, 2)))
     /*
@@ -106,9 +107,9 @@ class SolverTest : Spek({
                     Bar(5, 3, 1, 2),
                     Bar(4, 5, 0, 2)))
 
-            println(board6x6.layout + "\n")
-            Solver(xEndLoc = 2).solve(board6x6).forEach { println(it.layout + "\n") }
-            assertEquals(15, Solver(xEndLoc = 2).solve(board6x6).size)
+            val actual = Solver(DFS).solve(board6x6)
+            actual.forEach { println(it.layout + "\n") }
+            assertEquals(16, actual.size)
         }
     }
 

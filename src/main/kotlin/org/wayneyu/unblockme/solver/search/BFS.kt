@@ -12,9 +12,12 @@ object BFS : ShortestPathFinder {
         queue.add(root)
         shortestDistToNode.put(root, 0)
         shortestParentToNode.put(root, root) // set parent of root to root
+
+        var iter = 0
         while(queue.isNotEmpty()) {
+            iter++
             node = queue.removeAt(0)
-            println(node.toString() + "\n")
+
             if (!node.isEnd()) {
                 val distToNode = shortestDistToNode[node] ?: throw Exception("Should not have no match") // shouldnt return no match
                 val neighbors = node.neighbors
@@ -32,7 +35,7 @@ object BFS : ShortestPathFinder {
             visited.add(node)
         }
 
-        return SearchResult(node, shortestParentToNode)
+        return SearchResult(node, shortestParentToNode, iter)
     }
 
 }

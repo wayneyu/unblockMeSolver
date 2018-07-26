@@ -1,20 +1,18 @@
 package org.wayneyu.unblockme.solver
 
 import org.wayneyu.unblockme.solver.model.Board
-import org.wayneyu.unblockme.solver.search.BFS
-import org.wayneyu.unblockme.solver.search.DFS
 import org.wayneyu.unblockme.solver.search.Node
+import org.wayneyu.unblockme.solver.search.ShortestPathFinder
 import java.util.*
 
-class Solver(val xEndLoc: Int = 1) {
+class Solver(val pathFinder: ShortestPathFinder) {
 
     fun solve(board: Board): List<Board> {
-        val shortestPath = DFS.shortestPath(BoardNode(board, this))
+        val shortestPath = pathFinder.shortestPath(BoardNode(board, this))
         return shortestPath.map{ (it as BoardNode).board }
     }
 
-    fun isSolved(board: Board): Boolean =
-            board.redBar.xStart == xEndLoc && board.redBar.yStart == (board.ySize - 2)
+    fun isSolved(board: Board): Boolean = board.redBar.yStart == board.ySize - 2
 
 }
 
