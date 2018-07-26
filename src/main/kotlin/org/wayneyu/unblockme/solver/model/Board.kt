@@ -46,10 +46,10 @@ data class Board(val xSize: Int,
         get() = bars
                 .mapIndexed { index, bar ->
                     val maxSteps = if (bar.direction == 0) xSize - bar.length else ySize - bar.length
-                    val backwardMoves = (-maxSteps .. -1).reversed().map{ Move(it, bar.direction) }
+                    val backwardMoves = (-1 downTo -maxSteps).map{ Move(it, bar.direction) }
                     val forwardMoves = (1 .. maxSteps).map{ Move(it, bar.direction) }
-                    backwardMoves.takeWhile { this.move(index, it) != null }.plus(
-                    forwardMoves.takeWhile { this.move(index, it) != null }) }
+                    backwardMoves.takeWhile { this.move(index, it) != null }.reversed().plus( //reverse to visit longest move first
+                    forwardMoves.takeWhile { this.move(index, it) != null }.reversed())}
                 .mapIndexed { index, moves ->
                     moves.mapNotNull{ this.move(index, it) }}
                 .flatten()
@@ -58,7 +58,8 @@ data class Board(val xSize: Int,
 
     val layout: String
         get() = this.board.toList()
-                .map{it.joinToString(" ", "|", "|").replace("-1", "-")}
+                .map{it.map{Integer.toHexString(it)}}
+                .map{it.joinToString(" ", "|", "|").replace("ffffffff", "-")}
                 .joinToString("\n")
 }
 

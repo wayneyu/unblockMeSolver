@@ -1,28 +1,23 @@
-import org.wayneyu.unblockme.solver.Node
+package org.wayneyu.unblockme.solver.search
 
-object BFS {
+import java.util.*
 
-    data class SearchResult(val endNode: Node,
-                            val shortestParent: Map<Node, Node>)
+object DFS : ShortestPathFinder {
 
+    override fun search(root: Node): SearchResult {
 
-    fun shortestPath(root: Node): List<Node> {
-        val searchResult = bfs(root)
-        return shortestPathFromEndToStart(searchResult.endNode, searchResult.shortestParent).reversed()
-    }
-
-    fun bfs(root: Node): SearchResult {
         val visited = mutableSetOf<Node>()
-        val queue = mutableListOf<Node>()
+        val stack = Stack<Node>()
         val shortestDistToNode = mutableMapOf<Node, Int>()
         val shortestParentToNode = mutableMapOf<Node, Node>()
 
         var node = root
-        queue.add(root)
+        stack.add(root)
         shortestDistToNode.put(root, 0)
         shortestParentToNode.put(root, root) // set parent of root to root
-        while(queue.isNotEmpty()) {
-            node = queue.removeAt(0)
+        while(stack.isNotEmpty()) {
+            node = stack.pop()
+            println(node.toString() + "\n")
             if (!node.isEnd()) {
                 val distToNode = shortestDistToNode[node] ?: throw Exception("Should not have no match") // shouldnt return no match
                 val neighbors = node.neighbors
@@ -33,7 +28,7 @@ object BFS {
                     }
                 }
                 val notVisitedNeighbors = node.neighbors.filterNot { visited.contains(it) }
-                queue.addAll(notVisitedNeighbors)
+                stack.addAll(notVisitedNeighbors)
             } else {
                 break
             }
@@ -43,8 +38,4 @@ object BFS {
         return SearchResult(node, shortestParentToNode)
     }
 
-    fun shortestPathFromEndToStart(node: Node, shortestParent: Map<Node, Node>): List<Node> {
-        val parent = shortestParent[node] ?: throw Exception("should not have no match")
-        return if (parent == node) listOf(node) else listOf(node).plus(shortestPathFromEndToStart(parent, shortestParent))
-    }
 }

@@ -1,11 +1,10 @@
-package org.wayneyu.unblockme.solver
+package org.wayneyu.unblockme.solver.search
 
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.describe
 import org.jetbrains.spek.api.dsl.it
 import org.junit.platform.runner.JUnitPlatform
 import org.junit.runner.RunWith
-import kotlin.math.exp
 import kotlin.test.assertEquals
 
 @RunWith(JUnitPlatform::class)
@@ -33,7 +32,7 @@ class BFSTest : Spek({
 
 
         it("should return end node and shortest parent to each node") {
-            val actual = BFS.bfs(root)
+            val actual = BFS.search(root)
             val expectedShortestParentMap = mapOf<Node, Node>(root to root, n1 to root, n2 to n1, n3 to root, end to n3)
 
             assertEquals(end, actual.endNode)
@@ -41,7 +40,7 @@ class BFSTest : Spek({
         }
 
         it("should construct shortest path reversed from search result") {
-            val search = BFS.bfs(root)
+            val search = BFS.search(root)
             val actual = BFS.shortestPathFromEndToStart(search.endNode, search.shortestParent)
             val expected = listOf(end, n3, root)
 

@@ -1,4 +1,4 @@
-package org.wayneyu.unblockme.solver
+package org.wayneyu.unblockme.solver.search
 
 interface Node {
     val neighbors: Set<Node>

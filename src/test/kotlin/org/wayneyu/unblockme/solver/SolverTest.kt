@@ -82,7 +82,7 @@ class SolverTest : Spek({
 
     describe("should solve 6x6 board") {
 
-        xit("should solve board in 15 moves") {
+        it("should solve board in 15 moves") {
             /*
             |--2344|
             |11235-|
