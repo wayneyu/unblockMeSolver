@@ -1,6 +1,14 @@
 # UnblockMe Solver written in Kotlin
 
 
+### How to run
+```
+mvn clean install package
+```
+```
+java -jar target/unblockme-1.0-SNAPSHOT-jar-with-dependencies.jar src/main/resources/beginnerOriginal96Board
+```
+
 ## About the game
 UnblockMe is a puzzle game from Kira Games
 
@@ -87,14 +95,6 @@ while(queue.isNotEmpty()) {
         break
     }
 }
-```
-
-### How to run
-```
-mvn clean install package
-```
-```
-java -jar target/unblockme-1.0-SNAPSHOT-jar-with-dependencies.jar src/main/resources/beginnerOriginal96Board
 ```
 
 ### Result
