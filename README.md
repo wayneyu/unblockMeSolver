@@ -90,8 +90,9 @@ while(queue.isNotEmpty()) {
 ```
 
 
-
 ### Result
+Shortest path solution af the sample puzzle was reached in ~2400 node visits and took about 1.2s
+
 ```
 |- - 2 3 4 4|
 |1 1 2 3 5 -|

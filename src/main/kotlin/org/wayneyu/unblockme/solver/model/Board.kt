@@ -32,12 +32,11 @@ data class Board(val xSize: Int,
 
     fun moveBars(moves: List<Pair<Int, Move>>): List<Board> {
         if (moves.isEmpty()) return emptyList()
-        val movedOnce = moveBar(moves.first().first, moves.first().second) ?: this
-        return listOf(movedOnce).plus(movedOnce.moveBars(moves.drop(1)))
+        val boardAfterFirstMove = moveBar(moves.first().first, moves.first().second) ?: this
+        return listOf(boardAfterFirstMove).plus(boardAfterFirstMove.moveBars(moves.drop(1)))
     }
 
-    val occupiedTiles: Set<Tile>
-        get() = bars.flatMap { it.getTiles() }.toSet()
+    val occupiedTiles: Set<Tile> = bars.flatMap { it.getTiles() }.toSet()
 
     val redBar: Bar
         get() = bars[0]
