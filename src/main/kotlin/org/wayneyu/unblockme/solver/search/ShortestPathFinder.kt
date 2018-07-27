@@ -11,7 +11,7 @@ interface ShortestPathFinder {
     fun shortestPath(root: Node): List<Node> {
         val searchResult = search(root)
         val shortestPath = shortestPathFromEndToStart(searchResult.endNode, searchResult.shortestParent).reversed()
-        logger.info("iterations: ${searchResult.iterations}, shortest no. of steps: ${shortestPath.size - 1}")
+        logger.info("Search finished in ${searchResult.iterations} iterations, shortest path: ${shortestPath.size - 1} steps")
         return shortestPath
     }
 

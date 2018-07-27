@@ -70,10 +70,10 @@ class BoardTest : Spek({
             assertEquals(expected, board.occupiedTiles)
         }
 
-        it("should build a 4 by 4 board") {
+        it("should print layout of a 4 by 4 board") {
             val sb = StringBuilder()
             sb.appendln("|- - - -|")
-            sb.appendln("|0 0 1 -|")
+            sb.appendln("|0 0 1 - ")
             sb.appendln("|- - 1 -|")
             sb.append(  "|2 2 - -|")
 

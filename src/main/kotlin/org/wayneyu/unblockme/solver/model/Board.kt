@@ -55,8 +55,10 @@ data class Board(val xSize: Int,
 
     val layout: String
         get() = this.board.toList()
-                .map{it.map{Integer.toHexString(it)}}
-                .map{it.joinToString(" ", "|", "|").replace("ffffffff", "-")}
+                .map { it.map{Integer.toHexString(it)} }
+                .mapIndexed { x, row ->
+                    val suffix = if (x != redBar.xStart) "|" else " "
+                    row.joinToString(" ", "|", suffix).replace("ffffffff", "-") }
                 .joinToString("\n")
 }
 

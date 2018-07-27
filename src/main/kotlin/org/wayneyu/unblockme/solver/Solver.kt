@@ -1,8 +1,12 @@
 package org.wayneyu.unblockme.solver
 
+import org.slf4j.LoggerFactory
 import org.wayneyu.unblockme.solver.model.Board
+import org.wayneyu.unblockme.solver.parser.BoardParser
+import org.wayneyu.unblockme.solver.search.BFS
 import org.wayneyu.unblockme.solver.search.Node
 import org.wayneyu.unblockme.solver.search.ShortestPathFinder
+import java.io.File
 import java.util.*
 
 class Solver(private val pathFinder: ShortestPathFinder) {
@@ -13,7 +17,6 @@ class Solver(private val pathFinder: ShortestPathFinder) {
     }
 
     fun isSolved(board: Board): Boolean = board.redBar.yStart == board.ySize - 2
-
 }
 
 data class BoardNode(val board: Board, val solver: Solver) : Node {
@@ -27,4 +30,16 @@ data class BoardNode(val board: Board, val solver: Solver) : Node {
 
 fun main(args: Array<String>) {
 
+    val logger = LoggerFactory.getLogger(Solver::class.java)
+
+    try {
+        val filePath = args[0]
+        val lines = File(".", filePath).readLines()
+
+        val board = BoardParser.createBoard(lines)
+        val solution = Solver(BFS).solve(board)
+        logger.info("Solution: \n${solution.joinToString("\n\n") { it.layout }}")
+    } catch (ex: ArrayIndexOutOfBoundsException){
+        throw Exception("Not enough input parameters. Usage: java -jar this.jar filename")
+    }
 }

@@ -98,11 +98,10 @@ class SolverTest : Spek({
             val board6x6 = BoardParser.createBoard(layout)
             val actual = fixture.solve(board6x6)
 
-            actual.forEach{println("${it.layout}\n")}
             assertEquals(15, actual.size - 1)
         }
 
-        xit("should solve board (Intermediate original 1) in 21 moves ") {
+        it("should solve board (Intermediate original 1) in 21 moves ") {
             val layout = """
             |-12344|
             |-12355|
