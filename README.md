@@ -51,13 +51,13 @@ Board(xSize = 6, ySize = 6, bars = listOf(Bar(2, 1, 1, 2), Bar(1, 0, 1, 2), Bar(
 ```
 
 ### Method
-This is a shortest path finding problem and we solve it using BFS on a graph, where each node is a `Board` and node neighbors are the possible boards reachable by moving a Bar once.
+This is a shortest path finding problem and we solve it using BFS on a graph, where each node is a `Board` and node neighbors are the possible boards reachable by moving a Bar once.  
 
-To find the shortest path, we keep track of the shortest distance to reach a board and the parent node leading to the board.
+To find the shortest path, we keep track of the shortest distance to reach a board and the parent node leading to the board.  
 
-At the end, we trace back from the end node to generate the solution.
+At the end, we trace back from the end node to generate the solution.  
 
-This algorithm is essentially Djikstra's algorithm where edges are all 1 and using a queue to keep track of nodes.
+This algorithm is essentially Djikstra's algorithm where edges are all 1 and using a queue to keep track of nodes.  
 
 ```
 var node = root
