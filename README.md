@@ -45,11 +45,12 @@ For example:
 ```
 is represented by
 ```
-Board(xsize = 6, ysize = 6, bars: List(Bar(2, 1, 1, 2), Bar(1, 0, 1, 2), Bar(1, 3, 0, 2)))
+Board(xSize = 6, ySize = 6, bars = listOf(Bar(2, 1, 1, 2), Bar(1, 0, 1, 2), Bar(1, 3, 0, 2)))
 ```
 
 ### Method
-Djikstra backed by a queue
+This puzzle can be solved using Djikstra's shortest path algorithm.
+It's
 
 
 
