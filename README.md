@@ -89,6 +89,13 @@ while(queue.isNotEmpty()) {
 }
 ```
 
+### How to run
+```
+mvn clean install package
+```
+```
+java -jar target/unblockme-1.0-SNAPSHOT-jar-with-dependencies.jar src/main/resources/beginnerOriginal96Board
+```
 
 ### Result
 Shortest path solution af the sample puzzle was reached in ~2400 node visits and took about 1.2s
