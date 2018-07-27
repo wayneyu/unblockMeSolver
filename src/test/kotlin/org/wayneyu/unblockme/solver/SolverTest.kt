@@ -53,8 +53,8 @@ class SolverTest : Spek({
             */
             val expected = listOf(
                     board4x4,
-                    board4x4.move(1, Move(1, 0)),
-                    board4x4.move(1, Move(1, 0))?.move(0, Move(2, 1)))
+                    board4x4.moveBar(1, Move(1, 0)),
+                    board4x4.moveBar(1, Move(1, 0))?.moveBar(0, Move(2, 1)))
 
             assertEquals(expected, fixture.solve(board4x4))
         }
@@ -72,7 +72,7 @@ class SolverTest : Spek({
             |-----|
             */
             val board5x5 = Board(5, 5, listOf(Bar(1, 0, 1, 2), Bar(0, 3, 0, 3), Bar(3, 1, 1, 2), Bar(0, 2, 0, 3)))
-            val expected = listOf(board5x5).plus(board5x5.move(listOf(
+            val expected = listOf(board5x5).plus(board5x5.moveBars(listOf(
                     2 to Move(-1, 1),
                     3 to Move(2, 0),
                     1 to Move(2, 0),
@@ -85,7 +85,7 @@ class SolverTest : Spek({
 
     describe("should solve 6x6 board") {
 
-        it("should solve board (Beginner original 96) in 15 moves ") {
+        xit("should solve board (Beginner original 96) in 15 moves ") {
             val layout = """
             |--2344|
             |11235-|
@@ -117,7 +117,7 @@ class SolverTest : Spek({
             assertEquals(21, actual.size - 1)
         }
 
-        it("should solve board (Intermediate original 1) in 21 moves ") {
+        xit("should solve board (Intermediate original 1) in 21 moves ") {
             val layout = """
             |-12344|
             |-12355|
@@ -133,7 +133,7 @@ class SolverTest : Spek({
             assertEquals(21, actual.size - 1)
         }
 
-        it("should solve board (Expert original 39) in 40 moves ") {
+        xit("should solve board (Expert original 39) in 40 moves ") {
             val layout = """
             |11-2--|
             |4--233|

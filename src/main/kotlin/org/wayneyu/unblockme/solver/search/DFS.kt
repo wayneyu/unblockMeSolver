@@ -16,6 +16,7 @@ object DFS : ShortestPathFinder {
         var shortestDistEndNode: Pair<Node, Int> = root to Int.MAX_VALUE
 
         stack.add(root)
+        visited.add(root)
         var node = root
         var iter = 0
         while(stack.isNotEmpty()) {
@@ -37,8 +38,7 @@ object DFS : ShortestPathFinder {
             }
             val notVisitedNeighbors = neighbors.filterNot { visited.contains(it) }
             stack.addAll(notVisitedNeighbors)
-
-            visited.add(node)
+            visited.addAll(notVisitedNeighbors)
         }
 
         return SearchResult(shortestDistEndNode.first, shortestParentToNode, iter)

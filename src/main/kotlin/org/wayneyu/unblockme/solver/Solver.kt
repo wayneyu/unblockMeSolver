@@ -5,7 +5,7 @@ import org.wayneyu.unblockme.solver.search.Node
 import org.wayneyu.unblockme.solver.search.ShortestPathFinder
 import java.util.*
 
-class Solver(val pathFinder: ShortestPathFinder) {
+class Solver(private val pathFinder: ShortestPathFinder) {
 
     fun solve(board: Board): List<Board> {
         val shortestPath = pathFinder.shortestPath(BoardNode(board, this))

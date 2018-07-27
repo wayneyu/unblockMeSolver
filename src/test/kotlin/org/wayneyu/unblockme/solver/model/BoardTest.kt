@@ -30,19 +30,19 @@ class BoardTest : Spek({
             assertFailsWith(Exception::class) {Bar(0, 0, 9, 2).getTiles()}
         }
 
-        it("should change x location when adding a move in x direction") {
+        it("should change x location when adding a moveBars in x direction") {
             val fixture = Bar(1,2,0,2)
             val move = Move(2,0)
             assertEquals(fixture + Move(2, 0), fixture.copy(xStart = fixture.xStart + move.offset))
         }
 
-        it("should change y location when adding a move in y direction") {
+        it("should change y location when adding a moveBars in y direction") {
             val fixture = Bar(1,2,1,2)
             val move = Move(2,1)
             assertEquals(fixture + Move(2, 1), fixture.copy(yStart = fixture.yStart + move.offset))
         }
 
-        it("should throw Exception when adding a move in different direction") {
+        it("should throw Exception when adding a moveBars in different direction") {
             val fixture = Bar(1, 2, 0, 3)
             assertFailsWith(Exception::class) {fixture + Move(2, 1)}
         }
@@ -80,7 +80,7 @@ class BoardTest : Spek({
             assertEquals(sb.toString(), board.layout)
         }
 
-        it("should move a bar") {
+        it("should moveBars a bar") {
             /*
             |----|
             |00--|
@@ -89,22 +89,22 @@ class BoardTest : Spek({
             */
             val expected = Board(4, 4, listOf(Bar(1, 0, 1, 2), Bar(2, 2, 0, 2), Bar(3, 0, 1, 2)))
 
-            assertEquals(expected, board.move(1, Move(1, 0)))
+            assertEquals(expected, board.moveBar(1, Move(1, 0)))
         }
 
-        it("should return null if a move is not valid") {
-            assertNull(board.move(0, Move(1, 1)))
+        it("should return null if a moveBars is not valid") {
+            assertNull(board.moveBar(0, Move(1, 1)))
         }
 
-        it("should return null if a move moves bar out of bound") {
-            assertNull(board.move(2, Move(-1, 1)))
+        it("should return null if a moveBars moves bar out of bound") {
+            assertNull(board.moveBar(2, Move(-1, 1)))
         }
 
         it("should return boards as a result of applying a sequence of moves") {
             val moves = listOf(
                     1 to Move(1, 0),
                     0 to Move(2, 1))
-            val actual = board.move(moves)
+            val actual = board.moveBars(moves)
             val expected = listOf(
                     Board(4, 4, listOf(Bar(1, 0, 1, 2), Bar(2, 2, 0, 2), Bar(3, 0, 1, 2))),
                     Board(4, 4, listOf(Bar(1, 2, 1, 2), Bar(2, 2, 0, 2), Bar(3, 0, 1, 2))))
@@ -130,24 +130,24 @@ class BoardTest : Spek({
 
         it("should create neighbors for 5x5 board") {
             val expectedNeighbors = setOf(
-                    board5x5.move(1, Move(-1, 0)),
-                    board5x5.move(1, Move(-2, 0)),
-                    board5x5.move(2, Move(-1, 1)))
+                    board5x5.moveBar(1, Move(-1, 0)),
+                    board5x5.moveBar(1, Move(-2, 0)),
+                    board5x5.moveBar(2, Move(-1, 1)))
 
             assertEquals(expectedNeighbors, board5x5.neighbors)
         }
 
     }
 
-    describe("a move") {
+    describe("a moveBars") {
 
         val fixture = Move(1, 1)
 
-        it("should add another move") {
+        it("should add another moveBars") {
             assertEquals(fixture + Move(2, 1), Move(3, 1))
         }
 
-        it("should throw exception when adding another move in different direction") {
+        it("should throw exception when adding another moveBars in different direction") {
             assertFailsWith(Exception::class) {fixture + Move(2, 0)}
         }
     }

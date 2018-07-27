@@ -13,27 +13,27 @@ data class Board(val xSize: Int,
 
     private fun setBar(board: Array<IntArray>, bar: Bar, value: Int) = bar.getTiles().forEach{board[it.x][it.y] = value}
 
-    private fun isInsideBound(bar: Bar) =
+    private fun isWithinBoard(bar: Bar) =
         bar.getTiles().filter { it.x < 0 || it.x >= xSize || it.y < 0 || it.y >= ySize }.isEmpty()
 
-    fun move(barIndex: Int, move: Move): Board? {
+    fun moveBar(barIndex: Int, move: Move): Board? {
         val newBar = bars[barIndex] + move
 
-        val isMoveValid = isInsideBound(newBar) &&
+        val isMoveValid = isWithinBoard(newBar) &&
                 (this.occupiedTiles - bars[barIndex].getTiles()).intersect(newBar.getTiles()).isEmpty()
 
         return if(isMoveValid) {
             val mutableBars = bars.toMutableList()
             mutableBars[barIndex] = mutableBars[barIndex] + move
-            Board(xSize, ySize, mutableBars) }
+            this.copy(bars = mutableBars) }
         else null
 
     }
 
-    fun move(moves: List<Pair<Int, Move>>): List<Board> {
+    fun moveBars(moves: List<Pair<Int, Move>>): List<Board> {
         if (moves.isEmpty()) return emptyList()
-        val movedOnce = this.move(moves.first().first, moves.first().second) ?: this
-        return listOf(movedOnce).plus(movedOnce.move(moves.drop(1)))
+        val movedOnce = moveBar(moves.first().first, moves.first().second) ?: this
+        return listOf(movedOnce).plus(movedOnce.moveBars(moves.drop(1)))
     }
 
     val occupiedTiles: Set<Tile>
@@ -42,19 +42,17 @@ data class Board(val xSize: Int,
     val redBar: Bar
         get() = bars[0]
 
-    val neighbors: Set<Board> // all boards that are reachable with one move
+    val neighbors: Set<Board> // all boards that are reachable with one moveBars
         get() = bars
                 .mapIndexed { index, bar ->
                     val maxSteps = if (bar.direction == 0) xSize - bar.length else ySize - bar.length
                     val backwardMoves = (-1 downTo -maxSteps).map{ Move(it, bar.direction) }
                     val forwardMoves = (1 .. maxSteps).map{ Move(it, bar.direction) }
-                    backwardMoves.takeWhile { this.move(index, it) != null }.reversed().plus( //reverse to visit longest move first
-                    forwardMoves.takeWhile { this.move(index, it) != null }.reversed())}
+                    backwardMoves.takeWhile { moveBar(index, it) != null } + forwardMoves.takeWhile { moveBar(index, it) != null } }
                 .mapIndexed { index, moves ->
-                    moves.mapNotNull{ this.move(index, it) }}
+                    moves.mapNotNull{ moveBar(index, it) } }
                 .flatten()
                 .toSet()
-                .minus(this)
 
     val layout: String
         get() = this.board.toList()
