@@ -85,7 +85,7 @@ class SolverTest : Spek({
 
     describe("should solve 6x6 board") {
 
-        xit("should solve board (Beginner original 96) in 15 moves ") {
+        it("should solve board (Beginner original 96) in 15 moves ") {
             val layout = """
             |--2344|
             |11235-|
@@ -96,25 +96,10 @@ class SolverTest : Spek({
             """.trimIndent().replace("|", "").split("\n")
 
             val board6x6 = BoardParser.createBoard(layout)
-
             val actual = fixture.solve(board6x6)
+
+            actual.forEach{println("${it.layout}\n")}
             assertEquals(15, actual.size - 1)
-        }
-
-        it("should solve board (Intermediate original 1) in 21 moves ") {
-            val layout = """
-            |-12344|
-            |-12355|
-            |002---
-            |6777-A|
-            |6----A|
-            |8899-A|
-            """.trimIndent().replace("|", "").split("\n")
-
-            val board6x6 = BoardParser.createBoard(layout)
-            val actual = fixture.solve(board6x6)
-
-            assertEquals(21, actual.size - 1)
         }
 
         xit("should solve board (Intermediate original 1) in 21 moves ") {
@@ -133,7 +118,23 @@ class SolverTest : Spek({
             assertEquals(21, actual.size - 1)
         }
 
-        xit("should solve board (Expert original 39) in 40 moves ") {
+        it("should solve board (Intermediate original 1) in 21 moves ") {
+            val layout = """
+            |-12344|
+            |-12355|
+            |002---
+            |6777-A|
+            |6----A|
+            |8899-A|
+            """.trimIndent().replace("|", "").split("\n")
+
+            val board6x6 = BoardParser.createBoard(layout)
+            val actual = fixture.solve(board6x6)
+
+            assertEquals(21, actual.size - 1)
+        }
+
+        it("should solve board (Expert original 39) in 40 moves ") {
             val layout = """
             |11-2--|
             |4--233|
