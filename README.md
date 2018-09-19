@@ -20,7 +20,7 @@ The rules of the game are fairly simple:
 
 1. Each block, including the red block, can only be moved in the direction of the length of the block, i.e. a horizontal block moves horizontally and vertical block vertically.
 1. A block can be moved into any empty space that another block does not occupy.
-1. The objective of the game is unblock the red block and get it pass the right edge of the board.
+1. The objective of the game is to unblock the red block and get it past the right edge of the board.
 
 Fairly simple rules, but it can be fairly challenging to solve, especially trying to crack a puzzle within the optimal number of moves given, which in this case is 15.
 
@@ -63,7 +63,7 @@ This is a shortest path finding problem and we solve it using BFS on a graph, wh
 
 To find the shortest path, we keep track of the shortest distance to reach a board and the parent node leading to the board.  
 
-At the end, we trace back from the end node to generate the solution.  
+In the end, we trace back from the end node to generate the solution.  
 
 This algorithm is essentially Djikstra's algorithm where edges are all 1 and using a queue to keep track of nodes.  
 
@@ -98,7 +98,7 @@ while(queue.isNotEmpty()) {
 ```
 
 ### Result
-Shortest path solution af the sample puzzle was reached in ~2400 node visits and took about 1.2s
+Shortest path solution of the sample puzzle was reached in ~2400 node visits and took about 1.2s
 
 ```
 |- - 2 3 4 4|
